@@ -19,13 +19,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(
-    onLoginClick: (
+
+    onRegisterClick: (
         email: String,
         password: String
-    ) ->Unit){
+    ) ->Unit,
+
+){
 
     var email by remember{ mutableStateOf("") }
     var password by remember{ mutableStateOf("") }
@@ -51,10 +55,10 @@ fun RegisterScreen(
         )
 
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { onLoginClick(email, password) }) {
+        Button(onClick = { onRegisterClick(email, password) }) {
             Text(text = "Register")
         }
     }
 
-}
 
+}
