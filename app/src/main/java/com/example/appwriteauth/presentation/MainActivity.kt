@@ -29,10 +29,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
 //                    color = MaterialTheme.colorScheme.background
                 ) {
-                   RegisterScreen(onRegisterClick = {email, password ->
-                       viewModel.createUserWithEmailAndPassword(email,password,"")
-                   }
-                       )
+                RegisterScreen()
                 }
             }
         }

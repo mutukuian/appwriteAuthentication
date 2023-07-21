@@ -1,5 +1,6 @@
 package com.example.appwriteauth.presentation.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -18,16 +19,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.appwriteauth.presentation.viewmodel.RegisterViewModel
+import androidx.compose.runtime.livedata.observeAsState
+
+import androidx.compose.material3.Snackbar
 
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(
+    viewModel: RegisterViewModel = hiltViewModel()// Use viewModel() to get the RegisterViewModel instance
 
-    onRegisterClick: (
-        email: String,
-        password: String
-    ) ->Unit,
 
 ){
 
@@ -55,10 +59,29 @@ fun RegisterScreen(
         )
 
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { onRegisterClick(email, password) }) {
+        Button(onClick = { viewModel.createUserWithEmailAndPassword(email, password, "") }) {
             Text(text = "Register")
         }
     }
 
 
+
+
+    val authResult by viewModel.authResultLiveData.observeAsState()
+    authResult?.let { result ->
+        when (result) {
+            is RegisterViewModel.AuthResult.Success -> {
+                // Show a SnackBar with a success message
+                Snackbar {
+                    Text(text = "Registration successful!")
+                }
+            }
+            is RegisterViewModel.AuthResult.Error -> {
+                // Show a SnackBar with an error message
+                Snackbar {
+                    Text(text = "Registration error: ${result.message}")
+                }
+            }
+        }
+    }
 }
