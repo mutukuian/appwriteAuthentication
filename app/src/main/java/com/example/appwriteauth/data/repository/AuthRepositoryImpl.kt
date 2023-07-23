@@ -3,13 +3,16 @@ package com.example.appwriteauth.data.repository
 import com.example.appwriteauth.core.common.Resource
 import com.example.appwriteauth.domain.model.UserDomain
 import com.example.appwriteauth.domain.repository.AuthRepository
+import io.appwrite.Client
 import io.appwrite.ID
 import io.appwrite.services.Account
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class AuthRepositoryImpl @Inject constructor(
-    private val appWriteAccount: Account
+ class AuthRepositoryImpl @Inject constructor(
+    private val appWriteAccount: Account,
+    private val appWriteClient: Client
 ):AuthRepository{
     override suspend fun createUserWithEmailAndPassword(email: String, password: String, userName: String) = flow {
         emit(Resource.Loading)
@@ -33,9 +36,9 @@ class AuthRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun createUserWithGoogle(user: UserDomain) = flow<Resource<UserDomain>> {
-//        appWriteAccount.createOAuth2Session()
-    }
+
+
+
 
 
     // Function to validate the email address using Appwrite's rules

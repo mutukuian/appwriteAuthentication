@@ -1,6 +1,7 @@
 package com.example.appwriteauth.presentation.screens
 
 import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,6 +29,7 @@ import androidx.compose.runtime.livedata.observeAsState
 
 import androidx.compose.material3.Snackbar
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.appwriteauth.presentation.viewmodel.AuthResult
@@ -47,6 +49,7 @@ fun RegisterScreen(
     val loaderVisible by remember {
         mutableStateOf(false)
     }
+    val  context = LocalContext.current
 
     val authResult by viewModel.authResultLiveData.observeAsState()
 
@@ -103,6 +106,15 @@ fun RegisterScreen(
                 }
             }
         }
+
+        Button(
+            modifier = Modifier
+                .padding(top = 8.dp, bottom = 8.dp)
+                .fillMaxWidth(),
+            onClick = { viewModel.authenticateWithGoogle(context) }) {
+            Text(text = "Google")
+        }
+
 
     }
 

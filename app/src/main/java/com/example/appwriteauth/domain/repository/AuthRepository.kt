@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 
 interface AuthRepository {
-    suspend fun createUserWithEmailAndPassword(email: String, password: String, userName: String): Flow<Resource<Any>>
-    suspend fun createUserWithGoogle(user: UserDomain): Flow<Resource<Any>>
+    suspend fun createUserWithEmailAndPassword(email: String, password: String, userName: String ): Flow<Resource<Any>>
+
 }

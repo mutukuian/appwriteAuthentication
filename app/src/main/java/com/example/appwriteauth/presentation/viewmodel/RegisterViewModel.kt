@@ -1,5 +1,7 @@
 package com.example.appwriteauth.presentation.viewmodel
 
+import android.content.Context
+import androidx.activity.ComponentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,6 +12,7 @@ import com.example.appwriteauth.domain.model.UserDomain
 
 import com.example.appwriteauth.domain.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.appwrite.services.Account
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -19,7 +22,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val repository: AuthRepository
+    private val repository: AuthRepository,
+    private val account: Account
 ):ViewModel(){
 
     private val _authResultLiveData = MutableLiveData<AuthResult>(AuthResult.StandBy)
@@ -35,6 +39,16 @@ class RegisterViewModel @Inject constructor(
                     _authResultLiveData.postValue(AuthResult.Error(it.message ?: "An unknown Error has occurred"))
             }
         }
+    }
+
+
+    fun authenticateWithGoogle(context: Context) = viewModelScope.launch {
+        account.createOAuth2Session(
+            activity = context as ComponentActivity,
+            provider = "google",
+            success = "https://jhunt.online/auth/oauth2/success",
+            failure = "https://jhunt.online/auth/oauth2/failure"
+        )
     }
 }
 
